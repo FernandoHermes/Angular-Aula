@@ -1,0 +1,24 @@
+<!doctype html>
+<html ng-app="helloWord">
+  <head>
+	  <!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/estilo.css">
+	<link rel="stylesheet" type="text/css" href="css/animate.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+	<script>
+	angular.module("helloWord", []);
+	angular.module("helloWord").controller("helloWordCtrl", function($scope){
+		$scope.message = "Hellow Word!";
+	});
+	</script>
+  </head>
+  <body>
+	  <div class="jumbotron">
+		  <div class="container">
+			  <div class="title" style="color: #000;" ng-controller="helloWordCtrl"><h1>{{message}}</h1></div>
+		  </div>
+	  </div>
+  </body>
+</html>

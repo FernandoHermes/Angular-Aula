@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/estilo.css">
 	<link rel="stylesheet" type="text/css" href="css/animate.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
@@ -18,10 +19,37 @@
 	angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
 		$scope.app = "LISTA TELEFÔNICA";
 		$scope.contatos = [
-			{nome: "Alair", telefone:"48-9999-8888"},
-			{nome: "Gavião Bueno", telefone:"48-9999-7777"},
-			{nome: "Ferrari", telefone:"48-3333-8888"}
+			{nome: "Altair Paciência", telefone:"48-9999-8888", cor: "red"},
+			{nome: "Gavião Bueno", telefone:"48-9999-7777", cor: "red" },
+			{nome: "Godines de Boné", telefone:"48-8888-8888", cor: "red"},
+			{nome: "Da Lua designer", telefone:"48-22222-22222", cor: "red"},
+			{nome: "Ferrari Cinturinha", telefone:"48-3333-8888", cor: "red"},
+			{nome: "Caipira motoqueiro", telefone:"48-3333-8888", cor: "red"}
+		];$scope.operadoras = [
+			{nome: "OI", codigo:"14", categoria:"Telefone Celular"},
+			{nome: "GVT", codigo:"25", categoria:"Telefone Celular"},
+			{nome: "Claro", codigo:"15", categoria:"Telefone Fixo"},
+			{nome: "Tim", codigo:"18", categoria:"Telefone Fixo"}
 		];
+		//Adicionando Contatos
+		$scope.adicionarContato = function (contato) {
+			// $scope.contatos.push({nome: nome, telefone: telefone}); - pode ser feito assim em combinacao com comentario da linha do button comentado
+			// $scope.contatos.push(contato); //dessa forma, se alterar o nome ou telefone ele altera na mesma linha e não adiciona nova...
+			$scope.contatos.push(angular.copy(contato)); //assim ele copia e adiciona novo registro e se alterar ele cria uma novo
+			delete $scope.contato; //aqui ele deleta os campos do input do adicionar novo contato depois de clicar no botao adicionar
+		};
+		//Apagando Contatos
+		$scope.apagarContatos = function (contatos) {
+			$scope.contatos = contatos.filter(function (contato) {
+				if (!contato.selecionado) return contato;
+			});
+		};
+		//Disable botao remove se nenhum contato selecionado na checkbox
+		$scope.isContatoSelecionado = function (contatos) {
+			return contatos.some(function (contato) {
+				return contato.selecionado;
+			});
+		};
 	});
 	</script>
   </head>
@@ -35,23 +63,83 @@
 		  </div>
 	  </div>
 	  <div class="row">
-		  <div class="col-md-2"></div>
-		  	<div class="col-md-8">
+	  		<div class="col-md-1"></div>
+		  	<div class="col-md-6">
 			  <table class="table table-striped table-hover animated fadeInDown">
-				  <thead class="thead-inverse">
+				  <thead class="inverse">
 				  <tr>
+					  <th><i class="glyphicon glyphicon-check"></i></th>
 					  <th>NOME</th>
 					  <th>TELEFONE</th>
+					  <th>OPERADORA</th>
 				  </tr>
 			      </thead>
-				  <tr ng-repeat="contato in contatos">
+				  <!-- <tr ng-class="{selecionado: contato.selecionado, font16: contato.selecionado, animated: contato.selecionado, pulse: contato.selecionado}" ng-repeat="contato in contatos"> -->
+				  <!-- igual a de cima mas de forma resumida  mas tem de ser com uma string obrigatoriamente -->
+				  <tr ng-class="{'selecionado font16 animated pulse': contato.selecionado}" ng-repeat="contato in contatos">
+					  <td><input type="checkbox" ng-model="contato.selecionado"></td>
 					  <td>{{contato.nome}}</td>
 					  <td>{{contato.telefone}}</td>
+					  <td>{{contato.operadora.nome}}</td>
 					  <!-- <td ng-repeat="(key + ':' + value) in contato">{{value}}</td> Poderia ser escrito assim pra ficar dinamico -->
 				  </tr>
 			  </table>
-	  		</div>
-			<div class="col-md-2"></div>
+			  <h4>RETORNOS</h4>
+			  <div class="row " style="background-color: #333; padding: 16px;color: #FFF;">
+			   <div class="font16">{{contatos}}</div>
+			  </div>
+			</div>
+			<div class="col-md-4">
+				<!-- <div class="panel panel-default width300 centered"> -->
+				<div class="panel panel-default centered">
+					<div class="panel-heading inverse">
+						<h3 class="panel-title">Insira novos telefones</h3>
+					</div>
+					<!-- <div class="panel-body width300 centered"> -->
+					<div class="panel-body centered">
+						<div class="input-group">
+							<span class="input-group-addon inverse" for="nome" id="nome"><i class="glyphicon glyphicon-user"></i></span>
+							<input type="text" name="nome" class="form-control " ng-model="contato.nome" placeholder="Insira um nome" aria-describedby="nome">
+						</div>
+						<p><span class="label label-default">{{contato.nome}}</span></p>
+
+						<div class="input-group">
+							<span class="input-group-addon inverse" for="telefone" id="telefone"><i class="glyphicon glyphicon-phone-alt"></i></span>
+							<input type="text" name="telefone" class="form-control " ng-model="contato.telefone" placeholder="Insira telefone" aria-describedby="telefone">
+						</div>
+						<p><span class="label label-default">{{contato.telefone}}</span></p>
+						<div class="form-group">
+							<label for="sel1">Operadora:</label>
+							<select class="form-control" id="operadora" ng-model="contato.operadora"
+							ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+								<option value="">Selecione uma operadora</option>
+							</select>
+						</div>
+						<!-- <button class="btn inverse btn-block" ng-click="adicionarContato(nome, telefone)"> pode ser feito assim ver function comentada -->
+						<!-- botao adicionar -->
+						<button class="btn inverse btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">
+							<i class="glyphicon glyphicon-plus"></i> Adicionar Contato
+						</button>
+						<!-- botao apagar -->
+						<button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-disabled="!isContatoSelecionado(contatos)" ng-style="{'background-color': contato.cor}">
+							<i class="glyphicon glyphicon-trash"></i> Apagar registro
+						</button>
+						<!-- MESMO BOTAO USANDO O NG-SHOW AO INVES DO NG-DISABLE ele mantem o botao mas escondido  -->
+						<!-- <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-show="isContatoSelecionado(contatos)" ng-style="{'background-color': contato.cor}">
+							<i class="glyphicon glyphicon-trash"></i> Apagar registro
+						</button> -->
+						<!-- MESMO BOTAO USANDO O NG-HIDE AO INVES DO NG-DISABLE ele mantem o botao mas escondido -->
+						<!-- <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-hide="!isContatoSelecionado(contatos)" ng-style="{'background-color': contato.cor}">
+							<i class="glyphicon glyphicon-trash"></i> Apagar registro
+						</button> -->
+						<!-- MESMO BOTAO USANDO O NG-IF AO INVES DO NG-DISABLE - Ele tira o botao da aplicacao -->
+						<!-- <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-if="isContatoSelecionado(contatos)" ng-style="{'background-color': contato.cor}">
+							<i class="glyphicon glyphicon-trash"></i> Apagar registro
+						</button> -->
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
 	  </div>
   </body>
 </html>

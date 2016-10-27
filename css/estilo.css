@@ -1,8 +1,55 @@
-.jumbotron {
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
+html,
+body {
+  height: 100%;
 }
+
+.wrapper {
+  height: 100%;
+}
+
+.jumbotron {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
 /*.table {border: 1px double #333;}*/
-.table tr, th {text-align: center;}
-.thead-inverse {background-color: #333; color: #FFF;}
+.table tr,
+th {
+  text-align: center;
+}
+
+.inverse {
+  background-color: #333333;
+  color: #fff;
+  border-radius: 0px;
+}
+
+.negrito {
+  font-weight: bold;
+}
+
+.font16 {
+  font-size: 16px;
+}
+
+.centered {
+  text-align: center;
+}
+
+.radius-o {
+  border-radius: 0px;
+}
+
+.btn {
+  border-radius: 0px;
+}
+
+.alert-danger {
+  border: 0px;
+  padding: 2px;
+  border-top: 2px solid #ff0000;
+  border-bottom: 2px solid #ff0000;
+  background: transparent;
+  border-radius: 0px;
+}

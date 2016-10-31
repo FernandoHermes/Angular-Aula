@@ -12,10 +12,12 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.5.8/angular-messages.min.js"></script>
+	<!--<script src="/js/angular-messages.min"></script>-->
 
 	<title>Lista Telefônica</title>
 	<script>
-	angular.module("listaTelefonica", []);
+	angular.module("listaTelefonica", ["ngMessages"]);
 	angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
 		$scope.app = "TELEFONES FUNCIONÁRIOS NEXXERA";
 		$scope.contatos = [
@@ -117,7 +119,7 @@
 
 						<div class="input-group">
 							<span class="input-group-addon inverse" for="telefone" id="telefone"><i class="glyphicon glyphicon-phone-alt"></i></span>
-							<input type="text" name="telefone" class="form-control " ng-model="contato.telefone" placeholder="Insira telefone" aria-describedby="telefone" ng-required="true" ng-minlength="8">
+							<input type="text" name="telefone" class="form-control " ng-model="contato.telefone" placeholder="Insira telefone" aria-describedby="telefone" ng-required="true" ng-minlength="8" ng-pattern="/^\d{4,5}-\d{4}$/">
 						</div>
 						<p><span class="label label-default">{{contato.telefone}}</span></p>
 
@@ -159,16 +161,24 @@
                         <!-- ALERTAS DE PREENCHIMENTO  DOS CAMPOS NOME E TELEFONE -->
                         <!-- Primeiro exemplo usado abaixo usa o $invalid
                         <div class="alert alert-danger animated fadeInDown" ng-show="contatoForm.nome.$invalid && contatoForm.nome.$dirty"> -->
-                        <!-- NO CAMPO ABAIXO esta sendo usado a propriedade de form $error sobre o campo required -->
+                        <!-- NO CAMPO ABAIXO esta sendo usado a propriedade de form $error sobre o campo required 
                         <div class="alert alert-danger animated fadeInDown" ng-show="contatoForm.nome.$error.required && contatoForm.nome.$dirty">
                             <h5><i class="fa fa-exclamation-circle"></i> Por favor, preencha o nome. Mínimo 10 caracteres.</h5>
-                        </div>
+                        </div> -->
+						<!-- UMA FORMA MAIS MODERNA DE SE FAZER O MESMO ACIMA USANDO O NG MESSAGES -->
+						<div ng-messages="contatoForm.nome.$error" class="alert alert-danger animated fadeInDown">
+							<div ng-message="required"><i class="fa fa-exclamation-circle"></i> O campo nome deve ser preenchido!</div>
+							<div ng-message="minlength"><i class="fa fa-exclamation-circle"></i> O campo nome deve ter pelo menos 10 caracteres!</div>
+						</div>
                         <!-- Primeiro exemplo do aviso abaixo usando a propriedade de formulario $invalid
                         <div class="alert alert-danger animated fadeInDown" ng-show="contatoForm.telefone.$invalid && contatoForm.telefone.$dirty"> -->
                         <!-- USANDO PROPRIEDADE $error e neste caso o uso da propriedade $dirty não faz sentido -->
                         <div class="alert alert-danger animated fadeInDown" ng-show="contatoForm.telefone.$error.minlength">
                             <h5><i class="fa fa-exclamation-circle"></i> Por favor, preencha o telefone. Mínimo 8 caracteres.</h5>
                         </div>
+						<div class="alert alert-danger animated fadeInDown" ng-show="contatoForm.telefone.$error. pattern">
+							<h5><i class="fa fa-exclamation-circle"></i> O campo telefone deve ter o formato XXXXX-XXXX ou XXXX-XXXX.</h5>
+						</div>
 					</div>
 				</div>
 			</div>

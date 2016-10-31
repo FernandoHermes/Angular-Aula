@@ -1,0 +1,20 @@
+[
+    {
+        "nome": "OI",
+        "codigo": 14,
+        "categoria": "Telefone Celular"
+    }, {
+        "nome": "GVT",
+        "codigo": 25,
+        "categoria": "Telefone Celular"
+    }, {
+        "nome": "Claro",
+        "codigo": 15,
+        "categoria": "Telefone Fixo"
+    },
+    {
+        "nome": "Tim",
+        "codigo": 18,
+        "categoria": "Telefone Fixo"
+    }
+]

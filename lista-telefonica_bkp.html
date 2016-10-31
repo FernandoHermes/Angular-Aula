@@ -20,7 +20,8 @@
         <script>
             angular.module("listaTelefonica", ["ngMessages"]);
             angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope) {
-                 $scope.contatos = [
+                $scope.app = "TELEFONES FUNCIONÁRIOS NEXXERA";
+                $scope.contatos = [
                     {
                         nome: "Alair Tavares",
                         telefone: "48-9999-89999",
@@ -250,8 +251,7 @@
                         <div ng-messages="contatoForm.nome.$error" class="alert alert-danger animated fadeInDown">
                             <div ng-message="required">
                                 <i class="fa fa-exclamation-circle"></i>
-                                O campo nome deve ser preenchido!
-                            </div>
+                                O campo nome deve ser preenchido!</div>
                             <div ng-message="minlength">
                                 <i class="fa fa-exclamation-circle"></i>
                                 O campo nome deve ter pelo menos 10 caracteres!</div>

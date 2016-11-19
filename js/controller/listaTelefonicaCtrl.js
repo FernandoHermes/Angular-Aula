@@ -23,6 +23,8 @@
      var carregarContatos = function () {
          $http.get("http://localhost:3412/contatos").success(function (data, status) {
              $scope.contatos = data;
+         }).error(function (data, status) {
+             $scope.message = "dado não carregado, :("
          });
      };
      //CARREGAMENTO DO BACKEND OPERADORAS - rodar node http no terminal para gerar o backend de operadoras

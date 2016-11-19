@@ -1,281 +1,175 @@
 <!DOCTYPE html>
 <html lang="pt-br" ng-app="listaTelefonica">
 
-    <head>
-        <!-- Bootstrap CSS -->
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="css/estilo.css">
-        <link rel="stylesheet" type="text/css" href="css/animate.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.5.8/angular-messages.min.js"></script>
-        <!--<script src="/js/angular-messages.min"></script>-->
+<head>
+    <!-- Bootstrap CSS -->
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/estilo.css">
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.5.8/angular-messages.min.js"></script>
+    <!--<script src="/js/angular-messages.min"></script>-->
+    <script src="js/app.js"></script>
+    <script src="js/controller/listaTelefonicaCtrl.js"></script>
+    <title>Lista Telefônica</title>
+</head>
 
-        <title>Lista Telefônica</title>
-        <script>
-            angular.module("listaTelefonica", ["ngMessages"]);
-            angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope) {
-                 $scope.contatos = [
-                    {
-                        nome: "Alair Tavares",
-                        telefone: "48-9999-89999",
-                        data: new Date(),
-                        cor: "lightgray"
-                    }, {
-                        nome: "Luiz Bauher",
-                        telefone: "48-9999-7777",
-                        data: new Date(),
-                        cor: "#fbfbfb"
-                    }, {
-                        nome: "João De La Rosa",
-                        telefone: "48-8888-8888",
-                        data: new Date(),
-                        cor: "lightgray"
-                    }, {
-                        nome: "Mateus Ferreira",
-                        telefone: "48-22222-22222",
-                        data: new Date(),
-                        cor: "#fbfbfb"
-                    }, {
-                        nome: "Victor Botamedi",
-                        telefone: "48-3333-8888",
-                        data: new Date(),
-                        cor: "lightgray"
-                    }, {
-                        nome: "Thiago Silva",
-                        telefone: "48-3333-8888",
-                        data: new Date(),
-                        cor: "#fbfbfb"
-                    }, {
-                        nome: "Mister Anderson",
-                        telefone: "48-XXXX-XXXX",
-                        data: new Date(),
-                        cor: "lightgray"
-                    }
-                ];
-                $scope.operadoras = [
-                    {
-                        nome: "OI",
-                        codigo: "14",
-                        categoria: "Telefone Celular"
-                    }, {
-                        nome: "GVT",
-                        codigo: "25",
-                        categoria: "Telefone Celular"
-                    }, {
-                        nome: "Claro",
-                        codigo: "15",
-                        categoria: "Telefone Fixo"
-                    }, {
-                        nome: "Tim",
-                        codigo: "18",
-                        categoria: "Telefone Fixo"
-                    }
-                ];
-                //Adicionando Contatos
-                $scope.adicionarContato = function(contato) {
-                    // $scope.contatos.push({nome: nome, telefone: telefone}); - pode ser feito assim em combinacao com comentario da linha do button comentado $scope.contatos.push(contato); //dessa forma, se alterar o nome ou telefone ele altera na mesma linha e não
-                    // adiciona nova...
-                    $scope.contatos.push(angular.copy(contato)); //assim ele copia e adiciona novo registro e se alterar ele cria uma novo
-                    delete $scope.contato; //aqui ele deleta os campos do input do adicionar novo contato depois de clicar no botao adicionar
-                    $scope.contatoForm.$setPristine();
-                };
-                //Apagando Contatos
-                $scope.apagarContatos = function(contatos) {
-                    $scope.contatos = contatos.filter(function(contato) {
-                        if (!contato.selecionado)
-                            return contato;
-                            // aqui usa um filtro que pega os nao selecionado e retorna na tela e neste caso os selecionados nao retornam o que simula deleta-los
-                        }
-                    );
-                };
-                //Disable botao remove se nenhum contato selecionado na checkbox
-                $scope.isContatoSelecionado = function(contatos) {
-                    return contatos.some(function(contato) {
-                        return contato.selecionado;
-                    });
-                };
-                $scope.ordenarPor = function(campo) {
-                    $scope.criterioDeOrdenacao = campo;
-                    $scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
-                };
-            });
-        </script>
-    </head>
-
-    <body ng-controller="listaTelefonicaCtrl">
-        <div class="jumbotron">
-            <div class="container">
-                <!-- <div class="title"><h1 ng-bind="app">{{app}}</h1></div> forma formal de declarar -->
-                <!-- Tambem pode se concatenar a message como no exemplo abaixo
+<body ng-controller="listaTelefonicaCtrl">
+    <div class="jumbotron">
+        <div class="container">
+            <!-- <div class="title"><h1 ng-bind="app">{{app}}</h1></div> forma formal de declarar -->
+            <!-- Tambem pode se concatenar a message como no exemplo abaixo
 			  <div class="title animated fadeInDown"><h3><i class="glyphicon glyphicon-book"></i> {{app + 'São Paulo'}}</h3></div> -->
-                <div class="title">
-                    <h3>
-                        <i class="glyphicon glyphicon-phone"></i>
-                        {{app}}</h3>
-                </div>
+            <div class="title">
+                <h3 style="color: #333;"><i class="glyphicon glyphicon-phone"></i> {{app}}</h3>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-6">
-                <!-- CRIANDO FILTRO DE NOMES -->
-                <input ng-model="criterioDeBusca" type="text" class="form-control" placeholder="Pesquisar" style="margin-bottom: 20px;border: 2px solid #333333;">
-                <table class="table table-striped table-hover animated fadeInDown">
-                    <thead class="inverse">
-                        <tr class="inverse">
-                            <th>
-                                <i class="glyphicon glyphicon-check"></i>
-                            </th>
-                            <th>
-                                <a href="#" ng-click="ordenarPor('nome')">NOME</a>
-                            </th>
-                            <th>
-                                <a href="#" ng-click="ordenarPor('telefone')">TELEFONE</a>
-                            </th>
-                            <th>DATA</th>
-                            <th>OPERADORA</th>
-                            <th>CÓDIGO</th>
-                        </tr>
-                    </thead>
-                    <!-- <tr ng-class="{selecionado: contato.selecionado, font16: contato.selecionado, animated: contato.selecionado, pulse: contato.selecionado}" ng-repeat="contato in contatos"> -->
-                    <!-- igual a de cima mas de forma resumida  mas tem de ser com uma string obrigatoriamente -->
-                    <!-- Aplicando no ng-repeat o filtro de nomes  com uso estrito para o campo nome, se fosse todos os campos seria  ng-repeat="contato in contatos | filter:criterioDeBusca" -->
-                    <tr ng-class="{'selecionado font16 negrito animated pulse': contato.selecionado}" ng-repeat="contato in contatos | limitTo:5 | filter:{nome:criterioDeBusca} | orderBy:criterioDeOrdenacao:true" ng-style="{'background-color': contato.cor}">
-                        <td><input type="checkbox" ng-model="contato.selecionado"></td>
-                        <!-- aplicando o uppercase nos nomes mas na base eles continuam normais -->
-                        <td>{{contato.nome | uppercase }}</td>
-                        <td>{{contato.telefone}}</td>
-                        <td>{{contato.data | date:'dd/MM/yyyy - HH:MM'}}</td>
-                        <!-- aplicando o lowercase nos nomes das operadoras mas na base eles continuam normais -->
-                        <td>{{contato.operadora.nome | lowercase}}</td>
-                        <td>{{contato.operadora.codigo}}</td>
-                        <!-- <td ng-repeat="(key + ':' + value) in contato">{{value}}</td> Poderia ser escrito assim pra ficar dinamico -->
+    </div>
+    <div class="container-fluid">
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
+            <!-- CRIANDO FILTRO DE NOMES -->
+            <input ng-model="criterioDeBusca" type="text" class="form-control" placeholder="Pesquisar" style="margin-bottom: 20px;border: 2px solid #333333;">
+            <table class="table table-striped table-hover animated fadeInDown">
+                <thead class="inverse">
+                    <tr class="inverse">
+                        <th><i class="glyphicon glyphicon-check"></i></th>
+                        <th><a href="#" ng-click="ordenarPor('nome')">NOME</a></th>
+                        <th><a href="#" ng-click="ordenarPor('telefone')">TELEFONE</a></th>
+                        <th>DATA</th>
+                        <th>OPERADORA</th>
+                        <th>CÓDIGO</th>
                     </tr>
-                </table>
-
-                <h4>RETORNOS</h4>
-                <div class="row " style="background-color: #333; padding: 16px;color: #FFF;">
-                    <div class="font16">{{contatos}}</div>
-                    <h3>Testando validade do formulário ao digitar usando o $valid ou $invalid:</h3>
-                    <h4>É Válido:
-                        <span style="color: red;">{{contatoForm.$valid}}</span>
-                    </h4>
-                    <h4>É Inválido:
-                        <span style="color: red;">{{contatoForm.$invalid}}</span>
-                    </h4>
+                </thead>
+                <!-- <tr ng-class="{selecionado: contato.selecionado, font16: contato.selecionado, animated: contato.selecionado, pulse: contato.selecionado}" ng-repeat="contato in contatos"> -->
+                <!-- igual a de cima mas de forma resumida  mas tem de ser com uma string obrigatoriamente -->
+                <!-- Aplicando no ng-repeat o filtro de nomes  com uso estrito para o campo nome, se fosse todos os campos seria  ng-repeat="contato in contatos | filter:criterioDeBusca" -->
+                <tr ng-class="{'selecionado font16 negrito animated pulse': contato.selecionado}" ng-repeat="contato in contatos | limitTo:5 | filter:{nome:criterioDeBusca} | orderBy:criterioDeOrdenacao:true"
+                    ng-style="{'background-color': contato.cor}">
+                    <td><input type="checkbox" ng-model="contato.selecionado"></td>
+                    <!-- aplicando o uppercase nos nomes mas na base eles continuam normais -->
+                    <td>{{contato.nome | uppercase }}</td>
+                    <td>{{contato.telefone}}</td>
+                    <td>{{contato.data | date:'dd/MM/yyyy - HH:MM'}}</td>
+                    <!-- aplicando o lowercase nos nomes das operadoras mas na base eles continuam normais -->
+                    <td>{{contato.operadora.nome | lowercase}}</td>
+                    <td>{{contato.operadora.codigo}}</td>
+                    <!-- <td ng-repeat="(key + ':' + value) in contato">{{value}}</td> Poderia ser escrito assim pra ficar dinamico -->
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <!-- <div class="panel panel-default width300 centered"> -->
+            <div class="panel panel-default centered">
+                <div class="panel-heading inverse">
+                    <h3 class="panel-title">
+                        <i class="fa fa-plus-circle"></i> Insira novos telefones</h3>
                 </div>
-
-            </div>
-            <div class="col-md-4">
-                <!-- <div class="panel panel-default width300 centered"> -->
-                <div class="panel panel-default centered">
-                    <div class="panel-heading inverse">
-                        <h3 class="panel-title">
-                            <i class="fa fa-plus-circle"></i>
-                            Insira novos telefones</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form action="index.html" method="post" name="contatoForm">
-                            <div class="input-group">
-                                <span class="input-group-addon inverse" for="nome" id="nome">
+                <div class="panel-body">
+                    <form action="index.html" method="post" name="contatoForm">
+                        <div class="input-group">
+                            <span class="input-group-addon inverse" for="nome" id="nome">
                                     <i class="glyphicon glyphicon-user"></i>
                                 </span>
-                                <input type="text" name="nome" class="form-control " ng-model="contato.nome" placeholder="Insira um nome" aria-describedby="nome" ng-required="true" ng-minlength="10">
-                            </div>
-                            <p>
-                                <span class="label label-default">{{contato.nome}}</span>
-                            </p>
-
-                            <div class="input-group">
-                                <span class="input-group-addon inverse" for="telefone" id="telefone">
+                            <input type="text" name="nome" class="form-control " ng-model="contato.nome" placeholder="Insira um nome" aria-describedby="nome"
+                                ng-required="true" ng-minlength="10">
+                        </div>
+                        <p>
+                            <span class="label label-default">{{contato.nome}}</span>
+                        </p>
+                        <div class="input-group">
+                            <span class="input-group-addon inverse" for="telefone" id="telefone">
                                     <i class="glyphicon glyphicon-phone-alt"></i>
                                 </span>
-                                <input type="text" name="telefone" class="form-control " ng-model="contato.telefone" placeholder="Insira telefone" aria-describedby="telefone" ng-required="true" ng-minlength="8" ng-pattern="/^\d{4,5}-\d{4}$/">
-                            </div>
-                            <p>
-                                <span class="label label-default">{{contato.telefone}}</span>
-                            </p>
-
-                            <div class="form-group">
-                                <label for="sel1">Operadora:</label>
-                                <select class="form-control" id="operadora" ng-model="contato.operadora" ng-options="operadora.nome for operadora in operadoras | orderBy: 'nome'">
+                            <input type="text" name="telefone" class="form-control " ng-model="contato.telefone" placeholder="Insira telefone" aria-describedby="telefone"
+                                ng-required="true" ng-minlength="8" ng-pattern="/^\d{4,5}-\d{4}$/">
+                        </div>
+                        <p>
+                            <span class="label label-default">{{contato.telefone}}</span>
+                        </p>
+                        <div class="form-group">
+                            <label for="sel1">Operadora:</label>
+                            <select class="form-control" id="operadora" ng-model="contato.operadora" ng-options="operadora.nome for operadora in operadoras | orderBy: 'nome'">
                                     <option value="">Selecione uma operadora</option>
                                 </select>
-                            </div>
-                            <div class="form-group centered">
-                                <!-- <button class="btn inverse btn-block" ng-click="adicionarContato(nome, telefone)"> pode ser feito assim ver function comentada -->
-                                <!-- botao adicionar -->
-                                <!-- NO EXEMPLO DE BOTAO ABAIXO o botao e habilitado usando outra regra para o ng-disable
+                        </div>
+                        <div class="form-group centered">
+                            <!-- <button class="btn inverse btn-block" ng-click="adicionarContato(nome, telefone)"> pode ser feito assim ver function comentada -->
+                            <!-- botao adicionar -->
+                            <!-- NO EXEMPLO DE BOTAO ABAIXO o botao e habilitado usando outra regra para o ng-disable
                             <button class="btn btn-primary" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone"> -->
-
-                                <!-- O comando $invalid (ou então seu oposto, o $valid) permitem usando o ng-required validar ou habilitar um botao como no caso deste exemplo abaixo -->
-                                <button class="btn btn-primary" ng-click="adicionarContato(contato)" ng-disabled="contatoForm.$invalid">
-
+                            <!-- O comando $invalid (ou então seu oposto, o $valid) permitem usando o ng-required validar ou habilitar um botao como no caso deste exemplo abaixo -->
+                            <button class="btn btn-primary" ng-click="adicionarContato(contato)" ng-disabled="contatoForm.$invalid">
                                     <i class="fa fa-plus-circle"></i>
                                     Adicionar Contato
                                 </button>
-                                <!-- botao apagar -->
-                                <button class="btn btn-danger " ng-click="apagarContatos(contatos)" ng-disabled="!isContatoSelecionado(contatos)">
+                            <!-- botao apagar -->
+                            <button class="btn btn-danger " ng-click="apagarContatos(contatos)" ng-disabled="!isContatoSelecionado(contatos)">
                                     <i class="fa fa-times-circle"></i>
                                     Excluir Contato
                                 </button>
-                                <!-- MESMO BOTAO USANDO O NG-SHOW AO INVES DO NG-DISABLE ele mantem o botao mas escondido  -->
-                                <!-- <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-show="isContatoSelecionado(contatos)" ng-style="{'background-color': contato.cor}">
+                            <!-- MESMO BOTAO USANDO O NG-SHOW AO INVES DO NG-DISABLE ele mantem o botao mas escondido  -->
+                            <!-- <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-show="isContatoSelecionado(contatos)" ng-style="{'background-color': contato.cor}">
     							<i class="glyphicon glyphicon-trash"></i> Apagar registro
     						</button> -->
-                                <!-- MESMO BOTAO USANDO O NG-HIDE AO INVES DO NG-DISABLE ele mantem o botao mas escondido -->
-                                <!-- <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-hide="!isContatoSelecionado(contatos)" ng-style="{'background-color': contato.cor}">
+                            <!-- MESMO BOTAO USANDO O NG-HIDE AO INVES DO NG-DISABLE ele mantem o botao mas escondido -->
+                            <!-- <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-hide="!isContatoSelecionado(contatos)" ng-style="{'background-color': contato.cor}">
     							<i class="glyphicon glyphicon-trash"></i> Apagar registro
     						</button> -->
-                                <!-- MESMO BOTAO USANDO O NG-IF AO INVES DO NG-DISABLE - Ele tira o botao da aplicacao -->
-                                <!-- <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-if="isContatoSelecionado(contatos)" ng-style="{'background-color': contato.cor}">
+                            <!-- MESMO BOTAO USANDO O NG-IF AO INVES DO NG-DISABLE - Ele tira o botao da aplicacao -->
+                            <!-- <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-if="isContatoSelecionado(contatos)" ng-style="{'background-color': contato.cor}">
     							<i class="glyphicon glyphicon-trash"></i> Apagar registro
     						</button> -->
-                            </div>
-                        </form>
-                        <!-- ALERTAS DE PREENCHIMENTO  DOS CAMPOS NOME E TELEFONE -->
-                        <!-- Primeiro exemplo usado abaixo usa o $invalid
+                        </div>
+                    </form>
+                    <!-- ALERTAS DE PREENCHIMENTO  DOS CAMPOS NOME E TELEFONE -->
+                    <!-- Primeiro exemplo usado abaixo usa o $invalid
                         <div class="alert alert-danger animated fadeInDown" ng-show="contatoForm.nome.$invalid && contatoForm.nome.$dirty"> -->
-                        <!-- NO CAMPO ABAIXO esta sendo usado a propriedade de form $error sobre o campo required
+                    <!-- NO CAMPO ABAIXO esta sendo usado a propriedade de form $error sobre o campo required
                         <div class="alert alert-danger animated fadeInDown" ng-show="contatoForm.nome.$error.required && contatoForm.nome.$dirty">
                             <h5><i class="fa fa-exclamation-circle"></i> Por favor, preencha o nome. Mínimo 10 caracteres.</h5>
                         </div> -->
-                        <!-- UMA FORMA MAIS MODERNA DE SE FAZER O MESMO ACIMA USANDO O NG MESSAGES -->
-                        <div ng-messages="contatoForm.nome.$error" class="alert alert-danger animated fadeInDown">
-                            <div ng-message="required">
-                                <i class="fa fa-exclamation-circle"></i>
-                                O campo nome deve ser preenchido!
-                            </div>
-                            <div ng-message="minlength">
-                                <i class="fa fa-exclamation-circle"></i>
-                                O campo nome deve ter pelo menos 10 caracteres!</div>
+                    <!-- UMA FORMA MAIS MODERNA DE SE FAZER O MESMO ACIMA USANDO O NG MESSAGES -->
+                    <div ng-messages="contatoForm.nome.$error" class="alert alert-danger animated fadeInDown">
+                        <div ng-message="required">
+                            <i class="fa fa-exclamation-circle"></i> O campo nome deve ser preenchido!
                         </div>
-                        <!-- Primeiro exemplo do aviso abaixo usando a propriedade de formulario $invalid
+                        <div ng-message="minlength">
+                            <i class="fa fa-exclamation-circle"></i> O campo nome deve ter pelo menos 10 caracteres!</div>
+                    </div>
+                    <!-- Primeiro exemplo do aviso abaixo usando a propriedade de formulario $invalid
                         <div class="alert alert-danger animated fadeInDown" ng-show="contatoForm.telefone.$invalid && contatoForm.telefone.$dirty"> -->
-                        <!-- USANDO PROPRIEDADE $error e neste caso o uso da propriedade $dirty não faz sentido -->
-                        <div class="alert alert-danger animated fadeInDown" ng-show="contatoForm.telefone.$error.minlength">
-                            <h5>
-                                <i class="fa fa-exclamation-circle"></i>
-                                Por favor, preencha o telefone. Mínimo 8 caracteres.</h5>
-                        </div>
-                        <div class="alert alert-danger animated fadeInDown" ng-show="contatoForm.telefone.$error. pattern">
-                            <h5>
-                                <i class="fa fa-exclamation-circle"></i>
-                                O campo telefone deve ter o formato XXXXX-XXXX ou XXXX-XXXX.</h5>
-                        </div>
+                    <!-- USANDO PROPRIEDADE $error e neste caso o uso da propriedade $dirty não faz sentido -->
+                    <div class="alert alert-danger animated fadeInDown" ng-show="contatoForm.telefone.$error.minlength">
+                        <h5>
+                            <i class="fa fa-exclamation-circle"></i> Por favor, preencha o telefone. Mínimo 8 caracteres.</h5>
+                    </div>
+                    <div class="alert alert-danger animated fadeInDown" ng-show="contatoForm.telefone.$error. pattern">
+                        <h5>
+                            <i class="fa fa-exclamation-circle"></i> O campo telefone deve ter o formato XXXXX-XXXX ou XXXX-XXXX.</h5>
                     </div>
                 </div>
-                <div class="row centered"></div>
             </div>
-            <div class="col-md-1"></div>
+            <div class="row centered"></div>
         </div>
-        <div ng-include="'footer.html'"></div>
-    </body>
+        <div class="col-md-1"></div>
+    </div>
+    <div class="container">
+        <h4>RETORNOS</h4>
+        <div class="row " style="background-color: #333; padding: 16px;color: #FFF;">
+            <div class="font16">{{contatos}}</div>
+            <h3>Testando validade do formulário ao digitar usando o $valid ou $invalid:</h3>
+            <h4>É Válido:<span style="color: red;">{{contatoForm.$valid}}</span></h4>
+            <h4>É Inválido: <span style="color: red;">{{contatoForm.$invalid}}</span></h4>
+        </div>
+    </div>
+    <div ng-include="'view/footer.html'"></div>
+</body>
 
 </html>
